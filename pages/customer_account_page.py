@@ -1,3 +1,5 @@
+import time
+
 from pages.base_page import BasePage
 from locators.customer_account_page_locators import CustomerAccountPageLocators
 
@@ -36,3 +38,18 @@ class CustomerAccountPage(BasePage):
             return True
         else:
             return False
+
+    def make_deposit(self, amount: str) -> None:
+        self.click_deposit_button()
+        self.enter_deposit_amount(amount=amount)
+        self.click_submit_deposit()
+
+    def make_withdrawal(self, amount: str) -> None:
+        self.click_withdrawal_button()
+        time.sleep(1)
+        self.enter_deposit_amount(amount=amount)
+        time.sleep(1)
+        self.click_submit_deposit()
+
+    def get_balance(self) -> str:
+        return self.get_element_text(CustomerAccountPageLocators.BALANCE)

@@ -9,4 +9,5 @@ class CustomerAccountPageLocators:
     MESSAGE = "//span[@ng-show='message']"
     ACCOUNT_SELECTOR = "//select[@id='accountSelect']"
     ACCOUNT_NUMBER = "//strong[@class='ng-binding'][1]"
+    BALANCE = "//strong[@class='ng-binding'][2]"
 

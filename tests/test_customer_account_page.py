@@ -9,14 +9,10 @@ class TestDeposit:
     @allure.story('Успешный депозит')
     def test_successful_deposit(self, customer_account_page, login):
         with allure.step('Ввод суммы депозита и проверка отображения успешного сообщения после депозита'):
-            customer_account_page.click_deposit_button()
-            customer_account_page.enter_deposit_amount("1000")
-            customer_account_page.click_submit_deposit()
-            expected_successful_message = 'Deposit Successful'
-            actual_successful_message = customer_account_page.get_message_text()
-            assert expected_successful_message == actual_successful_message, f'Успешное сообщение не отображается. ' \
-                                                                             f'Сообщение которое отображется: ' \
-                                                                             f'{actual_successful_message}'
+            customer_account_page.make_deposit("1000")
+            expected_balance = "1000"
+            actual_balance = customer_account_page.get_balance()
+            assert expected_balance == actual_balance, f'Ожидаемый баланс: 1000. Актуальный баланс: {actual_balance}'
 
 
 @allure.feature("Проверка Transactions")
@@ -24,9 +20,7 @@ class TestTransactions:
     @allure.story('Проверка наличия транзакций в списке')
     def test_transaction_count(self, customer_account_page, transaction_page, login):
         with allure.step('Депозит'):
-            customer_account_page.click_deposit_button()
-            customer_account_page.enter_deposit_amount("1000")
-            customer_account_page.click_submit_deposit()
+            customer_account_page.make_deposit("1000")
         with allure.step('Переход на страницу с транзакциями'):
             customer_account_page.click_transaction_button()
             time.sleep(5)
@@ -36,30 +30,30 @@ class TestTransactions:
             transaction_count = transaction_page.get_transaction_count()
             assert transaction_count > 0, 'Список транзакций пуст'
 
+    @allure.story('Проверка очистки списка транзакций')
+    def test_reset_transactions(self, customer_account_page, transaction_page, login):
+        with allure.step('Депозит'):
+            customer_account_page.make_deposit("1000")
+        with allure.step('Переход на страницу с транзакциями'):
+            customer_account_page.click_transaction_button()
+        with allure.step('Очистка списка транзакций'):
+            customer_account_page.reload_page()
+            transaction_page.click_reset()
+            transaction_count = transaction_page.get_transaction_count()
+            assert transaction_count == 0, f"Список транзакций не очистился. Кол-во транзакций: {transaction_count}"
+
 
 @allure.feature("Проверка Withdeawl")
 class TestWithdeawl:
     @allure.story('Успешный вывод средств')
     def test_successful_withdrawal(self, customer_account_page, login):
         with allure.step('Ввод суммы депозита и проверка отображения успешного сообщения после депозита'):
-            customer_account_page.click_deposit_button()
-            customer_account_page.enter_deposit_amount("1000")
-            customer_account_page.click_submit_deposit()
-            expected_successful_message = 'Deposit Successful'
-            actual_successful_message = customer_account_page.get_message_text()
-            assert expected_successful_message == actual_successful_message, f'Успешное сообщение не отображается. ' \
-                                                                             f'Сообщение которое отображется: ' \
-                                                                             f'{actual_successful_message}'
+            customer_account_page.make_deposit("1000")
         with allure.step('Ввод суммы вывода и проверка отображения успешного сообщения после вывода'):
-            customer_account_page.click_withdrawal_button()
-            time.sleep(1)
-            customer_account_page.enter_deposit_amount("10")
-            customer_account_page.click_submit_deposit()
-            expected_successful_message = 'Transaction successful'
-            actual_successful_withdrawal_message = customer_account_page.get_message_text()
-            assert expected_successful_message == actual_successful_withdrawal_message, f'Успешное сообщение не отображается. ' \
-                                                                                        f'Сообщение которое отображется: ' \
-                                                                                        f'{actual_successful_withdrawal_message}'
+            customer_account_page.make_withdrawal("10")
+            expected_balance = "990"
+            actual_balance = customer_account_page.get_balance()
+            assert expected_balance == actual_balance, f'Ожидаемый баланс: 990. Актуальный баланс: {actual_balance}'
 
 
 @allure.feature("Проверка смены account number")

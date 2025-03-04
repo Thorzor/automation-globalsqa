@@ -1,3 +1,5 @@
+import time
+
 from playwright.sync_api import Page
 
 
@@ -48,3 +50,7 @@ class BasePage:
             return True
         else:
             raise Exception('Element is not disabled')
+
+    def reload_page(self):
+        time.sleep(1)
+        self.page.reload()
