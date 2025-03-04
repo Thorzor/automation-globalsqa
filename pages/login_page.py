@@ -5,7 +5,9 @@ from pages.base_page import BasePage
 
 
 class LoginPage(BasePage):
-    def open_page(self, url="https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login") -> None:
+    URL = "https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login"
+
+    def open_page(self, url=URL) -> None:
         self.open_url(url=url)
 
     def click_customer_login_button(self) -> None:
@@ -16,6 +18,9 @@ class LoginPage(BasePage):
 
     def click_login_button(self) -> None:
         self.click(LoginPageLocators.LOGIN_BUTTON)
+
+    def click_home_button(self) -> None:
+        self.click(LoginPageLocators.HOME_BUTTON)
 
     def pick_customer(self, customer_name: str) -> bool:
         self.click(LoginPageLocators.CUSTOMER_SELECTOR)

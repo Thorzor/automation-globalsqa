@@ -1,8 +1,7 @@
 import time
-
 import allure
+
 from locators.transaction_page_locators import TransactionPageLocators
-from locators.customer_account_page_locators import CustomerAccountPageLocators
 
 
 @allure.feature("Проверка Deposit")

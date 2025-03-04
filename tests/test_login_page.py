@@ -18,7 +18,7 @@ class TestLoginPage:
                                                                    f'Имя пользователя на странице: {actual_customer_name}'
 
     @allure.story('Проверка уаспешного логина под ролью bank manager')
-    def test_bank_manager_successful_login(self, login_page, customer_account_page):
+    def test_bank_manager_successful_login(self, login_page):
         with allure.step('Клик по кнопке для входа под ролью bank manager'):
             login_page.click_bank_manager_login_button()
         with allure.step('Проверка наличия кнопки для добавления customer'):
@@ -40,3 +40,11 @@ class TestLoginPage:
             expected_location = 'https://www.globalsqa.com/angularJs-protractor/BankingProject/#/customer'
             assert current_location == expected_location, f'Выход из аккаунта неуспешный. ' \
                                                           f'Текущее расположение: {current_location}'
+
+    @allure.story('Проверка перехода на страницу для входа с помощью кнопки Home')
+    def test_move_to_home(self, login_page, customer_account_page, login):
+        with allure.step('Клик по кнопке Home и проверка перенапралвения на страницу для входа'):
+            login_page.click_home_button()
+            expected_url = "https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login"
+            actual_url = login_page.get_current_url()
+            assert expected_url == actual_url, f"Редирект произошел на страницу {actual_url}"
