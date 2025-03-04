@@ -7,3 +7,6 @@ class CustomerAccountPageLocators:
     AMOUNT_INPUT = "//input[@type='number']"
     SUBMIT_DEPOSIT = "//button[@class='btn btn-default']"
     MESSAGE = "//span[@ng-show='message']"
+    ACCOUNT_SELECTOR = "//select[@id='accountSelect']"
+    ACCOUNT_NUMBER = "//strong[@class='ng-binding'][1]"
+
