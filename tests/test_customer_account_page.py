@@ -10,7 +10,7 @@ class TestDeposit:
     def test_successful_deposit(self, customer_account_page, login):
         with allure.step('Ввод суммы депозита и проверка отображения успешного сообщения после депозита'):
             customer_account_page.make_deposit("1000")
-            expected_balance = "1000"
+            expected_balance = "100"
             actual_balance = customer_account_page.get_balance()
             assert expected_balance == actual_balance, f'Ожидаемый баланс: 1000. Актуальный баланс: {actual_balance}'
 
